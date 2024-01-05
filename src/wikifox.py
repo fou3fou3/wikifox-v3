@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from requests import get
-import src.config as config, os
+import config, os
 
 def clear_terminal():
     try :
@@ -9,18 +9,18 @@ def clear_terminal():
         os.system('clear')
 
 def select_language():
-    print("\n[0] English-en\n[1] Arabic-ar\n[2] Russian-ru\n[3] Spanish-es\n[4] Japanese-ja\n[5] German-de\n[6] French-fr\n[7] Italian-it\n[8] Cheinese-zh\n[9] Persian-fa")
+    print(f"\n{config.RESET}[0] English-en\n[1] Arabic-ar\n[2] Russian-ru\n[3] Spanish-es\n[4] Japanese-ja\n[5] German-de\n[6] French-fr\n[7] Italian-it\n[8] Cheinese-zh\n[9] Persian-fa")
     language = int(input('\n\nPlease specify the language of search (use numbers) : '))
     
     if language not in list(range(10)):
-        print('Invalid language choice choose one of the languages on the list :\n')
+        print(f'{config.RED} Invalid language choice choose one of the languages on the list :\n {config.RESET}')
         return select_language()
 
     return config.LANGUAGES[language]
 
 def search_link(language):
-    search_input = input(f'What to search for in {language}?: ')
-    search_limit = input('How much results you want to apear (500 max)?: ')
+    search_input = input(f'{config.GREEN}What to search for in {language}?: ')
+    search_limit = input(f'{config.BLUE}How much results you want to apear (500 max)?: ')
     clear_terminal()
     
     return f"https://{language}.wikipedia.org/w/index.php?Search&limit={search_limit}&search={search_input}&fulltext=1&ns0=1" # &fulltext=1&ns0=1 is to make the page return search results and not direclty the most relevent search.
@@ -44,11 +44,11 @@ def search_results(search_link, language):
 
 def pick_result(results):
     for index, result in enumerate(results) :
-        print(f"----------------- [{index}] - {result['title']} -----------------")
-        print(f"details: {result['details']}")
-        print(f"additional info: {result['additional_info']}\n\n")
+        print(f"{config.GREEN}----------------- [{index}] - {result['title']} -----------------")
+        print(f"{config.CYAN}details: {result['details']}")
+        print(f"{config.RESET}additional info: {result['additional_info']}\n\n")
         
-    choice = int(input(f"Wich result you want? ( choose by index ): "))
+    choice = int(input(f"{config.MAGENTA}Wich result you want? ( choose by index ): "))
     clear_terminal()
     
     return results[choice]['link']
